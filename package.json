@@ -1,0 +1,19 @@
+{
+  "name": "lotto-game",
+  "version": "1.0.0",
+  "description": "A project to simulate the creation of lottery tickets and the extraction of lottery numbers.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest --coverage",
+    "start": "node controller/index.js"
+  },
+  "keywords": [],
+  "author": "Eva Lateltin",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.5.0"
+  }
+}
