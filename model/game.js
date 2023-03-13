@@ -50,9 +50,12 @@ class Game {
                 let minNumber;
                 const numbers = [];
                 switch (answers.type) {
-                    case 'Ambata' || 'Ambo':
+                    case 'Ambata':
                         minNumber = 2;
                       break;
+                    case 'Ambo':
+                     minNumber = 2;
+                    break;
                     case 'Terno':
                         minNumber = 3;
                       break;
@@ -87,12 +90,12 @@ class Game {
 
     async generateTickets(){
         const tickets = [];
-        let i = this.ticketQuantity;
-        while (i > 0){
+        let i = 1;
+        while (i <= this.ticketQuantity){
             const answers = await this.getInput(this.ticketQuestions);
-            const ticket = new Ticket(answers); 
+            const ticket = new Ticket(i, answers); 
             tickets.push(ticket);
-            i--;
+            i++;
         }
         return tickets;
     }
@@ -100,7 +103,6 @@ class Game {
     async init(){
         this.ticketQuantity = await this.getInput(this.quantityQuestion).then(answers => answers.ticketQuantity);
         this.tickets = await this.generateTickets();
-        console.log(this.tickets)
     }
 }
 
