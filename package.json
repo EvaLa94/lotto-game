@@ -17,6 +17,7 @@
     "jest": "^29.5.0"
   },
   "dependencies": {
+    "ascii-table3": "^0.8.2",
     "inquirer": "^9.1.4"
   }
 }
