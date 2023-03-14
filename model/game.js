@@ -1,4 +1,5 @@
 const Ticket = require('../model/ticket.js');
+const options = require('../model/options.js');
 
 class Game {
 
@@ -7,10 +8,10 @@ class Game {
             name: 'ticketQuantity',
             message: 'How many tickets would you like to generate?',
             validate(value) {
-                if (value > 0 && value <= 10) {
+                if (value > options.ticketQuantity.min - 1 && value <= options.ticketQuantity.max) {
                   return true;
                 } else {
-                    return 'Please enter a number between 1 and 10.';
+                    return `Please enter a number between ${options.ticketQuantity.min} and ${options.ticketQuantity.max}.`;
                 }
               },
     }]
@@ -20,7 +21,7 @@ class Game {
             type: 'checkbox',
             name: 'city',
             message: 'Enter one or more cities:',
-            choices: ['Bari', 'Cagliari', 'Firenze', 'Genova', 'Milano', 'Napoli', 'Palermo', 'Roma', 'Torino', 'Venezia', 'Tutte'],
+            choices: options.ticketFeatues.cities.concat(['Tutte']),
             validate(value) {
                 if (value.length > 0) {
                   return true;
@@ -33,7 +34,7 @@ class Game {
             type: 'list',
             name: 'type',
             message: 'Enter the type of the bill:',
-            choices: ['Ambata', 'Ambo', 'Terno', 'Quaterna', 'Cinquina'],
+            choices: options.ticketFeatues.type,
             validate(value) {
                 if (value !== '') {
                   return true;
@@ -47,26 +48,9 @@ class Game {
             name: 'quantity',
             message: 'How many numbers would you like to generate?',
             choices: answers => {
-                let minNumber;
                 const numbers = [];
-                switch (answers.type) {
-                    case 'Ambata':
-                        minNumber = 2;
-                      break;
-                    case 'Ambo':
-                     minNumber = 2;
-                    break;
-                    case 'Terno':
-                        minNumber = 3;
-                      break;
-                    case 'Quaterna':
-                        minNumber = 4;
-                    break;
-                    case 'Cinquina':
-                        minNumber = 5;
-                    break;
-                  }
-                while (minNumber <= 10){
+                let minNumber = options.ticketFeatues.typeMinNumber[answers.type];
+                while (minNumber <= options.ticketFeatues.numberQuantity.max){
                     numbers.push(minNumber);
                     minNumber++;
                 }

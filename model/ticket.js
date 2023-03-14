@@ -1,3 +1,6 @@
+const options = require('../model/options.js');
+const { AsciiTable3, AlignmentEnum } = require('ascii-table3');
+
 class Ticket {
     constructor(id, object){
         this.id = id,
@@ -8,39 +11,32 @@ class Ticket {
 
     generateNumbers(quantity){
         const randomNumbers = new Set();
-        quantity = quantity <= 10 ? quantity : 10;
+        quantity = quantity <= options.ticketFeatues.numberQuantity.max ? quantity : options.ticketFeatues.numberQuantity.max;
         while (randomNumbers.size < quantity) {
-          const random = Math.floor(Math.random() * 90  + 1);
+          const random = Math.floor(Math.random() * options.ticketFeatues.randomNumber.max  + options.ticketFeatues.randomNumber.min);
           randomNumbers.add(random)
         }
         return Array.from(randomNumbers).sort((a, b) => a - b);
     }
 
     generateCities(list){
-        return list.includes('Tutte') ? ['Bari', 'Cagliari', 'Firenze', 'Genova', 'Milano', 'Napoli', 'Palermo', 'Roma', 'Torino', 'Venezia'] : list;
+        return list.includes('Tutte') ? options.ticketFeatues.cities : list;
     }
 
     printTicket(){
         // 0: id // 1: city // 2: type // 3: numbers
         const values = [this.id.toString(), this.city.join(' - '), this.type, this.numbers.join(' - ')];
-        const lengths = values.map(value => value.length);
-        
-        const maxLength = Math.max(...lengths) + 11;
-        const partialLength = maxLength-11;
-        const extLine = `+${'-'.repeat(maxLength+1)}+`;
-        const midLine = `+---------+${'-'.repeat(partialLength+2)}+`;
-        const output = `
-${extLine}
-|${' '.repeat((maxLength-8)/2)}TICKET #${values[0]}${' '.repeat((maxLength)/2-lengths[0]-2)}|
-${midLine}
-| City    | ${values[1]}${' '.repeat(partialLength - lengths[1])} |
-${midLine}
-| Type    | ${values[2]}${' '.repeat(partialLength - lengths[2])} |
-${midLine}
-| Numbers | ${values[3]}${' '.repeat(partialLength - lengths[3])} |
-${midLine}
-`
-        return output;
+
+        const table = 
+            new AsciiTable3(`TICKET #${values[0]}`)
+            .setAlign(3, AlignmentEnum.CENTER)
+            .addRowMatrix([
+                ['City', values[1]],
+                ['Type', values[2]],
+                ['Numbers', values[3]],
+            ]);
+
+                return table.toString();
     }
 }
 
