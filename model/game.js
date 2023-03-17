@@ -1,8 +1,10 @@
 const Ticket = require('../model/ticket.js');
 const options = require('../model/options.js');
 
+/** Class representing a game where multiple tickets can be generated */
 class Game {
 
+    // Question parameters to generate a ticket with "inquirer"
     quantityQuestion = [{
         type: 'number',
             name: 'ticketQuantity',
@@ -16,6 +18,7 @@ class Game {
               },
     }]
 
+    // Question parameters to get the number of tickets to be generated
     ticketQuestions = [
         {
             type: 'checkbox',
@@ -66,12 +69,25 @@ class Game {
         }
     ];
 
+    /**
+     * Use the module "inquirer" to get answers from the user
+     * 
+     * @async
+     * @param {object} questions - Question parameters used to generate the tickets
+     * @returns {object} - Return an object containing all the replies
+     */
     async getInput(questions){
         const inquirer = await import('inquirer'); 
         const answers = await inquirer.default.prompt(questions);
         return answers;
     }
 
+    /**
+     * Loop function that generate new tickets based on the input of the user
+     * 
+     * @async
+     * @returns {array} - Return an array containing all the generated tickets
+     */
     async generateTickets(){
         const tickets = [];
         let i = 1;
@@ -84,6 +100,11 @@ class Game {
         return tickets;
     }
 
+    /**
+     * Initialize the game
+     * 
+     * @async
+     */
     async init(){
         this.ticketQuantity = await this.getInput(this.quantityQuestion).then(answers => answers.ticketQuantity);
         this.tickets = await this.generateTickets();
