@@ -16,6 +16,9 @@ More about the Italian lottery game (written in Italian):
   - [Game options](#game-options)<br>
 - [Install and Run the Project](#install-and-run-the-project)<br>
 - [How to Use the Project](#how-to-use-the-project)<br>
+  - [Generate a single ticket](#generate-a-single-ticket)
+  - [Generate a game with initWithPrompt](#generate-a-game-with-initwithprompt)
+  - [Generate a game with initWithInput](#generate-a-game-with-initwithinput)
 - [Future improvements](#future-improvements)<br>
 
 ## Project description
@@ -24,6 +27,7 @@ The project is structured in the following folders:
   - ticket.js &rarr; This file contains the Ticket class, that represents a single ticket.
   - game.js &rarr; This file contains the Game class, that represents a game of lottery, where multiple tickets are generated.
   - options.js &rarr; This file contains the game options, that can be changed in order to customize the experience. 
+  - validation &rarr; This file contains the validation for the creation of tickets.
 - :file_folder: controller
     - index.js &rarr; This file initializes a new game and then prints all the generated tickets.
 
@@ -42,7 +46,7 @@ const ticketFeatures = {
   quantity: 3,
 }
 
-const ticket = new Ticket(1, ticketFeatures)
+const ticket = generateTicket(1, ticketFeatures) // The first parameter is the id, i.e. the number of the ticket
 ```
 
 This is the result:
@@ -71,19 +75,13 @@ By using the *printTicket()* method, the ticket will be printed in a nice ascii 
 The Game class allows to generate a new lottery game. 
 In each game, the user needs to enter in the console how many tickets they wish to generate. As per default options, the number of tickets should be included between 1 and 5. 
 
-Below an example of how to generate a new game and then initialize it with the *init()* method:
-
-```javascript
-const game = new Game;
-game
-.init()
-.then(() => {
-    for (const ticket of game.tickets){
-        console.log(ticket.printTicket());
-        console.log(ticket);
-    }
-})
-```
+The game can be generated in two different ways: 
+1. It can generates the tickets based on the information entered in the console by the user. In this case, after instantiating a new game, the method *initWithPrompt()* should be used.
+See here the example code: 
+[Generate a game with initWithPrompt](#generate-a-game-with-initwithprompt)
+2. It can generates the tickets based on the information entered as parameter in the format of array of objects. In this case, after instantiating a new game, the method *initWithInput()* should be used.
+See here the example code: 
+[Generate a game with initWithInput](#generate-a-game-with-initwithinput)
 
 ### Game options
 In this file it is possible to customize the options of the game. Do not change this file if you wish to experience a simulation closest to the actual Italian lottery game (without the winning :wink:).
@@ -187,7 +185,7 @@ npm start
 ## How to Use the Project
 This project offers you the following possibilities: 
 
-- Generate a single ticket: 
+### Generate a single ticket
 ```javascript
 const ticketFeatures = {
   type: 'Ambo',
@@ -199,19 +197,38 @@ const ticket = new Ticket(1, ticketFeatures)
 ```
 You can use the *printTicket()* method in order to print this ticket in a nice ascii table.
 
-- Generate multiple tickets and then print them:
+### Generate a game with initWithPrompt
 ```javascript
-const game = new Game;
-game
-.init()
-.then(() => {
-    for (const ticket of game.tickets){
-        console.log(ticket.printTicket());
-        console.log(ticket);
-    }
-})
+const firstGame = new Game();
+
+firstGame.initWithPrompt().then(() => {
+  for (const ticket of firstGame.tickets) {
+    console.log(ticket.printTicket());
+  }
+});
 ```
-- (New possibilities will be implemented in the near future, stay tuned!)
+
+### Generate a game with initWithInput
+```javascript
+const secondGame = new Game();
+
+const input1 = {
+  type: "Ambo",
+  city: ["Bari", "Cagliari", "Firenze"],
+  quantity: 3,
+};
+const input2 = {
+  type: "Ambo",
+  city: ["Tutte"],
+  quantity: 5,
+};
+
+secondGame.initWithInput(2, [input1, input2]).then(() => {
+  for (const ticket of secondGame.tickets) {
+    console.log(ticket.printTicket());
+  }
+});
+```
 
 ## Future improvements
 - Implement part 2: <a href="https://github.com/tomorrowdevs-projects/programming-basics/tree/main/projects/m6/002-lotto-fake-extraction">Description</a>
