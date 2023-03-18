@@ -119,7 +119,7 @@ class Game {
   }
 
   /**
-   * Initialize the game
+   * Initialize the game with the prompts in the console
    *
    * @async
    */
@@ -130,9 +130,16 @@ class Game {
     this.tickets = await this.generateTickets();
   }
 
-  async initWitInput(ticketQuantity, arrayOfAnswers) {
+  /**
+   * Initialize the game with the input
+   *
+   * @async
+   *
+   * @param {array} arrayOfAnswers - An array of objects, where each object represent the features of the ticket: type, city and quantity
+   */
+  async initWithInput(arrayOfAnswers) {
     this.isInitWithInput = true;
-    this.ticketQuantity = ticketQuantity;
+    this.ticketQuantity = arrayOfAnswers.length;
     this.tickets = await this.generateTickets(arrayOfAnswers);
   }
 }

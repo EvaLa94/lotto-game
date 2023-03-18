@@ -25,7 +25,7 @@ const input2 = {
   quantity: 5,
 };
 
-secondGame.initWitInput(2, [input1, input2]).then(() => {
+secondGame.initWithInput([input1, input2]).then(() => {
   for (const ticket of secondGame.tickets) {
     console.log(ticket.printTicket());
   }
