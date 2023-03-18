@@ -1,9 +1,13 @@
 const Game = require("../model/game.js");
+const {
+  validateEnteredFeatures,
+  generateTicket,
+} = require("../model/validation.js");
 
 // Initialize a new game where the answers are entered in the console
 const firstGame = new Game();
 firstGame.initWithPrompt().then(() => {
-  for (const ticket of game.tickets) {
+  for (const ticket of firstGame.tickets) {
     console.log(ticket.printTicket());
   }
 });
@@ -22,7 +26,11 @@ const input2 = {
 };
 
 secondGame.initWitInput(2, [input1, input2]).then(() => {
-  for (const ticket of game.tickets) {
+  for (const ticket of secondGame.tickets) {
     console.log(ticket.printTicket());
   }
 });
+
+// Generate a new ticket without creating a game
+const ticket = generateTicket(1, input1);
+console.log(ticket.printTicket());

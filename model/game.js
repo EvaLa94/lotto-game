@@ -1,6 +1,9 @@
 const Ticket = require("../model/ticket.js");
 const options = require("../model/options.js");
-const validateEnteredFeatures = require("../model/validation.js");
+const {
+  validateEnteredFeatures,
+  generateTicket,
+} = require("../model/validation.js");
 
 /** Class representing a game where multiple tickets can be generated */
 class Game {

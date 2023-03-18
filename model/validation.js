@@ -69,4 +69,4 @@ function generateTicket(id, features) {
   }
 }
 
-module.exports = validateEnteredFeatures;
+module.exports = { validateEnteredFeatures, generateTicket };
