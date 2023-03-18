@@ -193,7 +193,7 @@ const ticketFeatures = {
   quantity: 3,
 }
 
-const ticket = new Ticket(1, ticketFeatures)
+const ticket = new Ticket(1, ticketFeatures) // The first parameter is the id, i.e. the number of the ticket
 ```
 You can use the *printTicket()* method in order to print this ticket in a nice ascii table.
 
@@ -223,7 +223,7 @@ const input2 = {
   quantity: 5,
 };
 
-secondGame.initWithInput(2, [input1, input2]).then(() => {
+secondGame.initWithInput([input1, input2]).then(() => {
   for (const ticket of secondGame.tickets) {
     console.log(ticket.printTicket());
   }
