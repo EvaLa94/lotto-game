@@ -4,6 +4,7 @@ const {
   generateTicket,
 } = require("../model/validation.js");
 
+/*
 // Initialize a new game where the answers are entered in the console
 const firstGame = new Game();
 firstGame.initWithPrompt().then(() => {
@@ -34,3 +35,4 @@ secondGame.initWithInput([input1, input2]).then(() => {
 // Generate a new ticket without creating a game
 const ticket = generateTicket(1, input1);
 console.log(ticket.printTicket());
+*/

@@ -6,7 +6,7 @@ const options = {
     min: 1,
     max: 5,
   },
-  ticketFeatues: {
+  ticketFeatures: {
     cities: [
       "Bari",
       "Cagliari",

@@ -11,9 +11,9 @@ const options = require("./options.js");
 function validateEnteredFeatures(id, features) {
   const checkList = [
     checkId(id),
-    checkType(features),
-    checkCity(features),
-    checkQuantity(features),
+    checkType(features.type),
+    checkCity(features.city),
+    checkQuantity(features.quantity),
   ];
 
   if (checkList.every((value) => value === true)) {
@@ -31,39 +31,35 @@ const checkId = (id) => {
 };
 
 // Validation of the type
-const checkType = (features) => {
-  const typeList = options.ticketFeatues.type;
-  return typeList.includes(features.type)
+const checkType = (type) => {
+  const typeList = options.ticketFeatures.type;
+  return typeList.includes(type)
     ? true
     : `The type should be one of the following: ${typeList.join(" - ")}`;
 };
 
 // Validation of the cities
-const checkCity = (features) => {
-  const cities = options.ticketFeatues.cities;
-  if (features.city.includes("Tutte")) {
+const checkCity = (cityList) => {
+  const cities = options.ticketFeatures.cities;
+  if (cityList.includes("Tutte")) {
     return true;
   } else {
-    return features.city.every((city) => cities.includes(city))
+    return cityList.every((city) => cities.includes(city))
       ? true
-      : `The following cities are not included in the lottery game: ${features.city
+      : `The following cities are not included in the lottery game: ${cityList
           .filter((city) => !cities.includes(city))
           .join(" - ")}`;
   }
 };
 
 // Validation of the quantity
-const checkQuantity = (features) => {
-  const min = options.ticketFeatues.numberQuantity.min;
-  const max = options.ticketFeatues.numberQuantity.max;
+const checkQuantity = (quantity) => {
+  const min = options.ticketFeatures.numberQuantity.min;
+  const max = options.ticketFeatures.numberQuantity.max;
   const checkMin =
-    features.quantity >= min
-      ? true
-      : `The minimum entered quantity should be ${min}`;
+    quantity >= min ? true : `The minimum entered quantity should be ${min}`;
   const checkMax =
-    features.quantity <= max
-      ? true
-      : `The maximum entered quantity should be ${max}`;
+    quantity <= max ? true : `The maximum entered quantity should be ${max}`;
   const checkList = [checkMin, checkMax];
 
   return checkList.every((value) => value === true)
@@ -87,4 +83,11 @@ function generateTicket(id, features) {
   }
 }
 
-module.exports = { validateEnteredFeatures, generateTicket };
+module.exports = {
+  validateEnteredFeatures,
+  generateTicket,
+  checkId,
+  checkType,
+  checkCity,
+  checkQuantity,
+};
