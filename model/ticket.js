@@ -1,4 +1,4 @@
-const options = require("../model/options.js");
+const options = require("./options.js");
 const { AsciiTable3, AlignmentEnum } = require("ascii-table3");
 
 /** Class representing a single ticket */
@@ -24,13 +24,13 @@ class Ticket {
   #generateNumbers(quantity) {
     const randomNumbers = new Set();
     quantity =
-      quantity <= options.ticketFeatues.numberQuantity.max
+      quantity <= options.ticketFeatures.numberQuantity.max
         ? quantity
-        : options.ticketFeatues.numberQuantity.max;
+        : options.ticketFeatures.numberQuantity.max;
     while (randomNumbers.size < quantity) {
       const random = Math.floor(
-        Math.random() * options.ticketFeatues.randomNumber.max +
-          options.ticketFeatues.randomNumber.min
+        Math.random() * options.ticketFeatures.randomNumber.max +
+          options.ticketFeatures.randomNumber.min
       );
       randomNumbers.add(random);
     }
@@ -44,7 +44,7 @@ class Ticket {
    * @returns {array} - All cities if 'Tutte' was included, otherwise only the ones entered
    */
   #generateCities(list) {
-    return list.includes("Tutte") ? options.ticketFeatues.cities : list;
+    return list.includes("Tutte") ? options.ticketFeatures.cities : list;
   }
 
   /**

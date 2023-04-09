@@ -1,5 +1,5 @@
-const Ticket = require("../model/ticket.js");
-const options = require("../model/options.js");
+const Ticket = require("./ticket.js");
+const options = require("./options.js");
 const {
   validateEnteredFeatures,
   generateTicket,
@@ -32,7 +32,7 @@ class Game {
       type: "checkbox",
       name: "city",
       message: "Enter one or more cities:",
-      choices: options.ticketFeatues.cities.concat(["Tutte"]),
+      choices: options.ticketFeatures.cities.concat(["Tutte"]),
       validate(value) {
         if (value.length > 0) {
           return true;
@@ -45,7 +45,7 @@ class Game {
       type: "list",
       name: "type",
       message: "Enter the type of the bill:",
-      choices: options.ticketFeatues.type,
+      choices: options.ticketFeatures.type,
       validate(value) {
         if (value !== "") {
           return true;
@@ -60,8 +60,8 @@ class Game {
       message: "How many numbers would you like to generate?",
       choices: (answers) => {
         const numbers = [];
-        let minNumber = options.ticketFeatues.typeMinNumber[answers.type];
-        while (minNumber <= options.ticketFeatues.numberQuantity.max) {
+        let minNumber = options.ticketFeatures.typeMinNumber[answers.type];
+        while (minNumber <= options.ticketFeatures.numberQuantity.max) {
           numbers.push(minNumber);
           minNumber++;
         }
