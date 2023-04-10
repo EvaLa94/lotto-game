@@ -1,4 +1,5 @@
 const Game = require("../model/game.js");
+const Ticket = require("../model/ticket.js");
 
 /*
 describe("description", () => {
@@ -25,10 +26,10 @@ describe("Game", () => {
   };
 
   describe("generateTickets", () => {
-    const listOfTickets = game.generateTickets([ticket1, ticket2]);
     test("It should generate tickets that are instances of Ticket class.", () => {
-      listOfTickets.then(() => {
-        for (const singleTicket of listOfTickets) {
+      const inputTickets = [ticket1, ticket2];
+      game.generateTickets(inputTickets).then((generatedTickets) => {
+        for (const singleTicket of generatedTickets) {
           const actual = singleTicket instanceof Ticket;
           const expected = true;
           expect(actual).toEqual(expected);
@@ -37,9 +38,9 @@ describe("Game", () => {
     });
 
     test("It should generate as many tickets as the entered information.", () => {
-      const listOfTickets = game.generateTickets([ticket1, ticket2]);
-      listOfTickets.then(() => {
-        const actual = listOfTickets.length;
+      const inputTickets = [ticket1, ticket2];
+      game.generateTickets(inputTickets).then(() => {
+        const actual = inputTickets.length;
         const expected = 2;
         expect(actual).toEqual(expected);
       });
