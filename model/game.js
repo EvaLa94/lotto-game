@@ -1,4 +1,5 @@
 const Ticket = require("./ticket.js");
+const Extraction = require("./extraction.js");
 const options = require("./options.js");
 const {
   validateEnteredFeatures,
