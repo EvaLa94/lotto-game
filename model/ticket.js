@@ -1,4 +1,5 @@
 const options = require("./options.js");
+const generateRandomLotteryNumbers = require("./utils.js");
 const { AsciiTable3, AlignmentEnum } = require("ascii-table3");
 
 /** Class representing a single ticket */
@@ -22,19 +23,7 @@ class Ticket {
    * @returns {array} - Sorted array of numbers
    */
   #generateNumbers(quantity) {
-    const randomNumbers = new Set();
-    quantity =
-      quantity <= options.ticketFeatures.numberQuantity.max
-        ? quantity
-        : options.ticketFeatures.numberQuantity.max;
-    while (randomNumbers.size < quantity) {
-      const random = Math.floor(
-        Math.random() * options.ticketFeatures.randomNumber.max +
-          options.ticketFeatures.randomNumber.min
-      );
-      randomNumbers.add(random);
-    }
-    return Array.from(randomNumbers).sort((a, b) => a - b);
+    return generateRandomLotteryNumbers(quantity);
   }
 
   /**
