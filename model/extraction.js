@@ -4,28 +4,26 @@ const options = require("./options.js");
 /** Class representing a single extraction */
 class Extraction {
   constructor() {
-    this.extraction = this.#extractNumbers();
+    this.#extractNumbers();
   }
 
   /**
-   * Extract the random numbers for each city
+   * Generate random lottery number for each lottery city
    * @private
-   *
-   * @returns {array} - Return an array of arrays of the extraction of each city
    */
   #extractNumbers() {
-    const extraction = {};
     for (const city of options.ticketFeatures.cities) {
-      extraction[city] = generateRandomLotteryNumbers(5);
+      this[city] = generateRandomLotteryNumbers(5);
     }
-    return extraction;
   }
 
   /**
    * Log the extraction in the console
    */
   printExtraction() {
-    console.log(this.extraction);
+    for (const city of options.ticketFeatures.cities) {
+      console.log(this[city]);
+    }
   }
 
   /**
@@ -43,7 +41,7 @@ class Extraction {
       for (const city of ticket.city) {
         // Ticket's type is Ambata
         if (ticket.type === "Ambata") {
-          ambataLoop: for (const number of this.extraction[city]) {
+          ambataLoop: for (const number of this[city]) {
             if (ticket.numbers.includes(number)) {
               // If an exact number has been found, create an array of the other possible options
               let remainingNumbers = Array.from(ticket.numbers);
@@ -56,7 +54,7 @@ class Extraction {
               // Loop through the other possible options
               for (const remainingNumber of remainingNumbers) {
                 if (
-                  this.extraction[city].includes(remainingNumber) &&
+                  this[city].includes(remainingNumber) &&
                   remainingNumber !== number
                 ) {
                   winningTickets.push(ticket);
@@ -70,7 +68,7 @@ class Extraction {
         } else {
           let count = 0;
 
-          this.extraction[city].forEach((number) => {
+          this[city].forEach((number) => {
             if (ticket.numbers.includes(number)) {
               count++;
             }
