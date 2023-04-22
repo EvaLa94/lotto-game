@@ -1,13 +1,13 @@
 const Ticket = require("./ticket.js");
 const Extraction = require("./extraction.js");
 const options = require("./options.js");
-const {
-  validateEnteredFeatures,
-  generateTicket,
-} = require("../model/validation.js");
+const { validateEnteredFeatures } = require("../model/validation.js");
 
-/** Class representing a game where multiple tickets can be generated */
+/** Class representing a lottery game */
 class Game {
+  constructor() {
+    this.extraction = new Extraction();
+  }
   // Question parameters to generate a ticket with "inquirer"
   quantityQuestion = [
     {
@@ -142,6 +142,25 @@ class Game {
     this.isInitWithInput = true;
     this.ticketQuantity = arrayOfAnswers.length;
     this.tickets = await this.generateTickets(arrayOfAnswers);
+  }
+
+  /**
+   * Check if there are any winning tickets
+   *
+   * @param {*} arrayOfTickets - Array of tickets to be checked against the extraction
+   * @returns {string} - If there are winning tickets, return the tickets printed in the ascii format, otherwise return "None of your tickets won."
+   */
+  checkWinningTickets(arrayOfTickets) {
+    this.winningTickets = this.extraction.checkWinningTickets(arrayOfTickets);
+    if (this.winningTickets.length > 0) {
+      let printedTickets = "";
+      for (const winningTicket of this.winningTickets) {
+        printedTickets += winningTicket.printTicket() + "\n";
+      }
+      return printedTickets;
+    } else {
+      return "None of your tickets won.";
+    }
   }
 }
 
