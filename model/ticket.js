@@ -1,5 +1,5 @@
-const options = require("./options.js");
-const generateRandomLotteryNumbers = require("./utils.js");
+const options = require("../controller/options.js");
+const generateRandomLotteryNumbers = require("../controller/utils");
 const { AsciiTable3, AlignmentEnum } = require("ascii-table3");
 
 /** Class representing a single ticket */

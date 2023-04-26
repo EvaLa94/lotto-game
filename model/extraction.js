@@ -1,5 +1,5 @@
-const generateRandomLotteryNumbers = require("./utils.js");
-const options = require("./options.js");
+const generateRandomLotteryNumbers = require("../controller/utils.js");
+const options = require("../controller/options.js");
 
 /** Class representing a single extraction */
 class Extraction {

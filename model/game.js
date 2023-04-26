@@ -1,7 +1,7 @@
 const Ticket = require("./ticket.js");
 const Extraction = require("./extraction.js");
-const options = require("./options.js");
-const { validateEnteredFeatures } = require("../model/validation.js");
+const options = require("../controller/options.js");
+const { validateEnteredFeatures } = require("../controller/validation.js");
 
 /** Class representing a lottery game */
 class Game {
@@ -136,12 +136,12 @@ class Game {
    *
    * @async
    *
-   * @param {array} arrayOfAnswers - An array of objects, where each object represent the features of the ticket: type, city and quantity
+   * @param {array} arrayOfTickets - An array of objects, where each object represent the features of the ticket: type, city and quantity
    */
-  async initWithInput(arrayOfAnswers) {
+  async initWithInput(arrayOfTickets) {
     this.isInitWithInput = true;
-    this.ticketQuantity = arrayOfAnswers.length;
-    this.tickets = await this.generateTickets(arrayOfAnswers);
+    this.ticketQuantity = arrayOfTickets.length;
+    this.tickets = await this.generateTickets(arrayOfTickets);
   }
 
   /**

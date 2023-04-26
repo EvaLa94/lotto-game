@@ -1,10 +1,6 @@
 const Game = require("../model/game.js");
-const {
-  validateEnteredFeatures,
-  generateTicket,
-} = require("../model/validation.js");
+const { validateEnteredFeatures, generateTicket } = require("./validation.js");
 
-/*
 // Initialize a new game where the answers are entered in the console
 const firstGame = new Game();
 firstGame.initWithPrompt().then(() => {
@@ -12,7 +8,7 @@ firstGame.initWithPrompt().then(() => {
     console.log(ticket.printTicket());
   }
 });
-
+/*
 // Initialize a new game where the answers are entered directly from the code
 const secondGame = new Game();
 const input1 = {

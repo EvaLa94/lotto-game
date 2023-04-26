@@ -1,4 +1,4 @@
-const Ticket = require("./ticket.js");
+const Ticket = require("../model/ticket");
 const options = require("./options.js");
 
 /**
