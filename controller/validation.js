@@ -4,16 +4,19 @@ const options = require("./options.js");
 /**
  * Validate the entered features based on the game options
  *
- * @param {number || string} id - The id of the ticket, usually a number
- * @param {object} features - Features of the ticket: type, city and quantity
- * @returns {*} - 'True' if all the features are validated otherwise a string containing the features not validated
+ * @param {number|string} id - The ticket's id number
+ * @param {string} type - The ticket's type (Ambata, Ambo, Terno, Quaterna or Cinquina)
+ * @param {string} city - The ticket's city ("Bari", "Cagliari", "Firenze", "Genova", "Milano", "Napoli", "Palermo", "Roma", "Torino", "Venezia", or "Tutte")
+ * @param {number} quantity - How many numbers each ticket should have
+ * @param {number} bet - Amount of the bet
  */
-function validateEnteredFeatures(id, features) {
+function validateEnteredFeatures(id, type, city, quantity, bet) {
   const checkList = [
     checkId(id),
-    checkType(features.type),
-    checkCity(features.city),
-    checkQuantity(features.quantity),
+    checkType(type),
+    checkCity(city),
+    checkQuantity(quantity),
+    checkBet(bet),
   ];
 
   if (checkList.every((value) => value === true)) {
@@ -24,36 +27,32 @@ function validateEnteredFeatures(id, features) {
 }
 
 // Validation of the ID
-const checkId = (id) => {
+function checkId(id) {
   return typeof id === "string" || typeof id === "number"
     ? true
     : "The ID should be a string or a number";
-};
+}
 
 // Validation of the type
-const checkType = (type) => {
+function checkType(type) {
   const typeList = options.ticketFeatures.type;
   return typeList.includes(type)
     ? true
     : `The type should be one of the following: ${typeList.join(" - ")}`;
-};
+}
 
 // Validation of the cities
-const checkCity = (cityList) => {
-  const cities = options.ticketFeatures.cities;
-  if (cityList.includes("Tutte")) {
+function checkCity(city) {
+  const possibleCities = options.ticketFeatures.cities;
+  if (city === "Tutte" || possibleCities.includes(city)) {
     return true;
   } else {
-    return cityList.every((city) => cities.includes(city))
-      ? true
-      : `The following cities are not included in the lottery game: ${cityList
-          .filter((city) => !cities.includes(city))
-          .join(" - ")}`;
+    return `The entered city is not included in the lottery game`;
   }
-};
+}
 
 // Validation of the quantity
-const checkQuantity = (quantity) => {
+function checkQuantity(quantity) {
   const min = options.ticketFeatures.numberQuantity.min;
   const max = options.ticketFeatures.numberQuantity.max;
   const checkMin =
@@ -65,19 +64,27 @@ const checkQuantity = (quantity) => {
   return checkList.every((value) => value === true)
     ? true
     : checkList.filter((value) => value !== true);
-};
+}
+
+// Validation of the bet
+function checkBet(bet) {
+  return typeof bet === "number" ? true : "The bet should be a number";
+}
 
 /**
  * Generate a ticket after validating it. If there is something wrong with the validation, a message will report what features were not validated.
  *
- * @param {number || string} id - The id of the ticket, usually a number
- * @param {object} features - Features of the ticket: type, city and quantity
+ * @param {number|string} id - The ticket's id number
+ * @param {string} type - The ticket's type (Ambata, Ambo, Terno, Quaterna or Cinquina)
+ * @param {string} city - The ticket's city ("Bari", "Cagliari", "Firenze", "Genova", "Milano", "Napoli", "Palermo", "Roma", "Torino", "Venezia", or "Tutte")
+ * @param {number} quantity - How many numbers each ticket should have
+ * @param {number} bet - Amount of the bet
  * @returns {*} - 'True' if all the features are validated otherwise a string containing the features not validated
  */
-function generateTicket(id, features) {
-  const validation = validateEnteredFeatures(id, features);
+function generateTicket(id, type, city, quantity, bet) {
+  const validation = validateEnteredFeatures(id, type, city, quantity, bet);
   if (validation === true) {
-    return new Ticket(id, features);
+    return new Ticket(id, type, city, quantity, bet);
   } else {
     return `There was one or more errors while generating the ticket:\n${validation}\nThe Ticket was not generated`;
   }
@@ -90,4 +97,5 @@ module.exports = {
   checkType,
   checkCity,
   checkQuantity,
+  checkBet,
 };
