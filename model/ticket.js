@@ -46,10 +46,8 @@ class Ticket {
         ["Bet", `${this.bet.toFixed(2)} €`],
       ]);
 
-    console.log(table.toString());
+    return table.toString();
   }
 }
 
 module.exports = Ticket;
-const ticket = new Ticket(1, "Ambata", "Roma", 15, 1.5);
-ticket.printTicket();
