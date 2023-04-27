@@ -7,13 +7,18 @@ class Ticket {
   /**
    * Generate the ticket
    *
-   * @param {number} id - The number of the ticket
-   * @param {object} object - An object that includes the type of the ticket (string), the cities (array) and the quantity of numbers to generate (number)
+   * @param {number|string} id - The ticket's id number
+   * @param {string} type - The ticket's type (Ambata, Ambo, Terno, Quaterna or Cinquina)
+   * @param {string} city - The ticket's city ("Bari", "Cagliari", "Firenze", "Genova", "Milano", "Napoli", "Palermo", "Roma", "Torino", "Venezia", or "Tutte")
+   * @param {number} quantity - How many numbers each ticket should have
+   * @param {number} bet - Amount of the bet
    */
-  constructor(id, object) {
-    (this.id = id), (this.type = object.type);
-    this.city = this.#generateCities(object.city);
-    this.numbers = this.#generateNumbers(object.quantity);
+  constructor(id, type, city, quantity, bet) {
+    this.id = id;
+    this.type = type;
+    this.city = city;
+    this.numbers = this.#generateNumbers(quantity);
+    this.bet = bet;
   }
 
   /**
@@ -27,39 +32,24 @@ class Ticket {
   }
 
   /**
-   * Check if the entered cities includes 'Tutte'. If yes, all cities are returned
-   *
-   * @param {array} list - Array of cities to be verified
-   * @returns {array} - All cities if 'Tutte' was included, otherwise only the ones entered
-   */
-  #generateCities(list) {
-    return list.includes("Tutte") ? options.ticketFeatures.cities : list;
-  }
-
-  /**
    * Print the ticked in a nice ascii format, with the informations from the constructor
    *
    * @returns {string} - Return the ticket in a string format
    */
   printTicket() {
-    // 0: id // 1: city // 2: type // 3: numbers
-    const values = [
-      this.id.toString(),
-      this.city.join(" - "),
-      this.type,
-      this.numbers.join(" - "),
-    ];
-
-    const table = new AsciiTable3(`TICKET #${values[0]}`)
+    const table = new AsciiTable3(`TICKET #${this.id.toString()}`)
       .setAlign(3, AlignmentEnum.CENTER)
       .addRowMatrix([
-        ["City", values[1]],
-        ["Type", values[2]],
-        ["Numbers", values[3]],
+        ["City", this.city],
+        ["Type", this.type],
+        ["Numbers", this.numbers.join(" - ")],
+        ["Bet", `${this.bet.toFixed(2)} €`],
       ]);
 
-    return table.toString();
+    console.log(table.toString());
   }
 }
 
 module.exports = Ticket;
+const ticket = new Ticket(1, "Ambata", "Roma", 15, 1.5);
+ticket.printTicket();
