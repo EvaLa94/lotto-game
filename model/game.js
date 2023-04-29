@@ -1,165 +1,141 @@
 const Ticket = require("./ticket.js");
 const Extraction = require("./extraction.js");
-const options = require("../controller/options.js");
+const { options } = require("../controller/options.js");
+const { winningTable } = require("../controller/winningTable.js");
 const { validateEnteredFeatures } = require("../controller/validation.js");
 
 /** Class representing a lottery game */
 class Game {
   constructor() {
-    this.extraction = new Extraction();
-  }
-  // Question parameters to generate a ticket with "inquirer"
-  quantityQuestion = [
-    {
-      type: "number",
-      name: "ticketQuantity",
-      message: "How many tickets would you like to generate?",
-      validate(value) {
-        if (
-          value > options.ticketQuantity.min - 1 &&
-          value <= options.ticketQuantity.max
-        ) {
-          return true;
-        } else {
-          return `Please enter a number between ${options.ticketQuantity.min} and ${options.ticketQuantity.max}.`;
-        }
-      },
-    },
-  ];
-
-  // Question parameters to get the number of tickets to be generated
-  ticketQuestions = [
-    {
-      type: "checkbox",
-      name: "city",
-      message: "Enter one or more cities:",
-      choices: options.ticketFeatures.cities.concat(["Tutte"]),
-      validate(value) {
-        if (value.length > 0) {
-          return true;
-        } else {
-          return "Please select at least one city.";
-        }
-      },
-    },
-    {
-      type: "list",
-      name: "type",
-      message: "Enter the type of the bill:",
-      choices: options.ticketFeatures.type,
-      validate(value) {
-        if (value !== "") {
-          return true;
-        } else {
-          return "Please select a ticket type.";
-        }
-      },
-    },
-    {
-      type: "list",
-      name: "quantity",
-      message: "How many numbers would you like to generate?",
-      choices: (answers) => {
-        const numbers = [];
-        let minNumber = options.ticketFeatures.typeMinNumber[answers.type];
-        while (minNumber <= options.ticketFeatures.numberQuantity.max) {
-          numbers.push(minNumber);
-          minNumber++;
-        }
-        return numbers;
-      },
-      validate(value) {
-        if (value !== "") {
-          return true;
-        } else {
-          return "Please select a number.";
-        }
-      },
-    },
-  ];
-
-  /**
-   * Use the module "inquirer" to get answers from the user
-   *
-   * @async
-   * @param {object} questions - Question parameters used to generate the tickets
-   * @returns {object} - Return an object containing all the replies
-   */
-  async getInput(questions) {
-    const inquirer = await import("inquirer");
-    const answers = await inquirer.default.prompt(questions);
-    return answers;
+    this.idCount = 1;
+    this.tickets = [];
+    this.winningTickets = [];
+    this.extraction = {};
   }
 
   /**
-   * Loop function that generate new tickets based on the input of the user
+   * Create a new ticket and push it to this.tickets
    *
-   * @async
-   * @returns {array} - Return an array containing all the generated tickets
+   * @param {string} type - The ticket's type (Ambata, Ambo, Terno, Quaterna or Cinquina)
+   * @param {string} city - The ticket's city ("Bari", "Cagliari", "Firenze", "Genova", "Milano", "Napoli", "Palermo", "Roma", "Torino", "Venezia", or "Tutte")
+   * @param {number} quantity - How many numbers each ticket should have
+   * @param {number} bet - Amount of the bet
+   * @returns {object} - The newly generated ticket
    */
-  async generateTickets(arrayOfAnswers) {
-    const tickets = [];
-    let i = 1;
-    while (i <= this.ticketQuantity) {
-      const answers = this.hasOwnProperty("isInitWithInput")
-        ? arrayOfAnswers[i - 1]
-        : await this.getInput(this.ticketQuestions);
-
-      const validation = validateEnteredFeatures(i, answers);
-      if (validation === true) {
-        const ticket = new Ticket(i, answers);
-        tickets.push(ticket);
-        i++;
-      } else {
-        console.log(validation);
-        i++;
-        continue;
-      }
+  addTicket(type, city, quantity, bet) {
+    if (validateEnteredFeatures(this.idCount, type, city, quantity, bet)) {
+      const ticket = new Ticket(this.idCount, type, city, quantity, bet);
+      this.tickets.push(ticket);
+      this.idCount++;
+      return ticket;
+    } else {
+      return false;
     }
-    return tickets;
   }
 
   /**
-   * Initialize the game with the prompts in the console
-   *
-   * @async
+   * Print the tickets in the console
    */
-  async initWithPrompt() {
-    this.ticketQuantity = await this.getInput(this.quantityQuestion).then(
-      (answers) => answers.ticketQuantity
-    );
-    this.tickets = await this.generateTickets();
+  printTickets() {
+    for (const ticket of this.tickets) {
+      console.log(ticket.printTicket());
+    }
   }
 
   /**
-   * Initialize the game with the input
+   * Perform a new lottery extraction
    *
-   * @async
-   *
-   * @param {array} arrayOfTickets - An array of objects, where each object represent the features of the ticket: type, city and quantity
+   * @returns {object} - The game's extraction
    */
-  async initWithInput(arrayOfTickets) {
-    this.isInitWithInput = true;
-    this.ticketQuantity = arrayOfTickets.length;
-    this.tickets = await this.generateTickets(arrayOfTickets);
+  performExtraction() {
+    const extraction = new Extraction();
+    this.extraction = extraction.extraction;
+    return extraction;
   }
 
   /**
    * Check if there are any winning tickets
    *
-   * @param {*} arrayOfTickets - Array of tickets to be checked against the extraction
-   * @returns {string} - If there are winning tickets, return the tickets printed in the ascii format, otherwise return "None of your tickets won."
+   * @returns {array} - All the winning tickets
    */
-  checkWinningTickets(arrayOfTickets) {
-    this.winningTickets = this.extraction.checkWinningTickets(arrayOfTickets);
-    if (this.winningTickets.length > 0) {
-      let printedTickets = "";
-      for (const winningTicket of this.winningTickets) {
-        printedTickets += winningTicket.printTicket() + "\n";
+  checkWinningTickets() {
+    const winningTickets = [];
+
+    // Loop through the tickets
+    for (const ticket of this.tickets) {
+      const cityArray =
+        ticket.city === "Tutte" ? options.ticketFeatures.cities : [ticket.city];
+
+      // Loop through the cities of the ticket
+      for (const city of cityArray) {
+        let count = 0;
+        this.extraction[city].forEach((number) => {
+          if (ticket.numbers.includes(number)) {
+            count++;
+          }
+        });
+
+        // If the ticket is winning
+        if (count >= options.ticketFeatures.typeMinNumber[ticket.type]) {
+          const existingTicket = winningTickets.filter(
+            (winningTicket) => winningTicket.id === ticket.id
+          );
+
+          // Check if the ticket has already won on another city
+          if (existingTicket.length > 0) {
+            existingTicket[0].grossWin += this.#calculateGrossWinning(ticket);
+            existingTicket[0].netWin += this.#calculateNetWinning(ticket);
+          } else {
+            ticket.grossWin = this.#calculateGrossWinning(ticket);
+            ticket.netWin = this.#calculateNetWinning(ticket);
+            winningTickets.push(ticket);
+          }
+        }
       }
-      return printedTickets;
-    } else {
-      return "None of your tickets won.";
+    }
+
+    this.winningTickets = winningTickets;
+    return winningTickets;
+  }
+
+  /**
+   * Calculate the gross winning of a winning ticket
+   *
+   * @private
+   *
+   * @param {object} ticket - A winning ticket
+   * @returns {number} - The gross amount of the winning
+   */
+  #calculateGrossWinning(ticket) {
+    const multiplier = winningTable[ticket.type][ticket.numbers.length];
+    const divisor = ticket.city === "Tutte" ? 10 : 1;
+    return (multiplier * ticket.bet) / divisor;
+  }
+
+  /**
+   * Calculate the net winning of a winning ticket
+   *
+   * @private
+   *
+   * @param {object} ticket - A winning ticket
+   * @returns {number} - The net amount of the winning
+   */
+  #calculateNetWinning(ticket) {
+    const multiplier = winningTable[ticket.type][ticket.numbers.length];
+    const divisor = ticket.city === "Tutte" ? 10 : 1;
+    return (multiplier * ticket.bet * (1 - 0.08)) / divisor;
+  }
+
+  /**
+   * Loop throught the winning tickets and print the tickets and their gross and net winnings
+   */
+  printWinningTickets() {
+    for (const ticket of this.winningTickets) {
+      console.log(
+        `${ticket.printTicket()}The gross winning is: € ${ticket.grossWin.toFixed(
+          2
+        )}\nThe net winning is: € ${ticket.netWin.toFixed(2)}\n`
+      );
     }
   }
 }
