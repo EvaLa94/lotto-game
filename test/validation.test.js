@@ -52,30 +52,31 @@ describe("Validation.js", () => {
   });
 
   describe("checkQuantity", () => {
-    const min = options.ticketFeatures.numberQuantity.min;
+    const type = "Terno";
+    const min = options.ticketFeatures.typeMinNumber[type];
     const max = options.ticketFeatures.numberQuantity.max;
 
     test("Should return true if the entered quantity is above the option's minimun quantity.", () => {
-      const actual = validation.checkQuantity(min + 1);
+      const actual = validation.checkQuantity(min + 1, type);
       const expected = true;
       expect(actual).toEqual(expected);
     });
 
     test("Should return true if the entered quantity is below the option's maximum quantity.", () => {
-      const actual = validation.checkQuantity(max - 1);
+      const actual = validation.checkQuantity(max - 1, type);
       const expected = true;
       expect(actual).toEqual(expected);
     });
 
     test("Should return an error message if the entered quantity is below the option's minimun quantity.", () => {
-      const actual = validation.checkQuantity(min - 1);
-      const expected = [`The minimum entered quantity should be ${min}`];
+      const actual = validation.checkQuantity(min - 1, type);
+      const expected = `The minimum entered quantity should be ${min}`;
       expect(actual).toEqual(expected);
     });
 
     test("Should return an error message if the entered quantity is above the option's maximum quantity.", () => {
-      const actual = validation.checkQuantity(max + 1);
-      const expected = [`The maximum entered quantity should be ${max}`];
+      const actual = validation.checkQuantity(max + 1, type);
+      const expected = `The maximum entered quantity should be ${max}`;
       expect(actual).toEqual(expected);
     });
   });
@@ -89,7 +90,7 @@ describe("Validation.js", () => {
 
     test("Should return a message error if the entered id is not a number.", () => {
       const actual = validation.checkBet(["Hello", "World"]);
-      const expected = "The bet should be a number";
+      const expected = "The bet should be a number greater than 0";
       expect(actual).toEqual(expected);
     });
   });

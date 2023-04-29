@@ -15,7 +15,7 @@ function validateEnteredFeatures(id, type, city, quantity, bet) {
     checkId(id),
     checkType(type),
     checkCity(city),
-    checkQuantity(quantity),
+    checkQuantity(quantity, type),
     checkBet(bet),
   ];
 
@@ -48,8 +48,8 @@ function checkCity(city) {
 }
 
 // Validation of the quantity
-function checkQuantity(quantity) {
-  const min = options.ticketFeatures.numberQuantity.min;
+function checkQuantity(quantity, type) {
+  const min = options.ticketFeatures.typeMinNumber[type];
   const max = options.ticketFeatures.numberQuantity.max;
   const checkMin =
     quantity >= min ? true : `The minimum entered quantity should be ${min}`;
@@ -59,12 +59,14 @@ function checkQuantity(quantity) {
 
   return checkList.every((value) => value === true)
     ? true
-    : checkList.filter((value) => value !== true);
+    : checkList.filter((value) => value !== true)[0];
 }
 
 // Validation of the bet
 function checkBet(bet) {
-  return typeof bet === "number" ? true : "The bet should be a number";
+  return typeof +bet === "number" && +bet > 0
+    ? true
+    : "The bet should be a number greater than 0";
 }
 
 module.exports = {
