@@ -1,4 +1,3 @@
-const options = require("../controller/options.js");
 const generateRandomLotteryNumbers = require("../controller/utils");
 const { AsciiTable3, AlignmentEnum } = require("ascii-table3");
 

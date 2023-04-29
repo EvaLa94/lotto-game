@@ -1,4 +1,4 @@
-const options = require("./options.js");
+const { options } = require("./options.js");
 
 /**
  * Generate random numbers for both the lottery ticket and the lottery extraction
