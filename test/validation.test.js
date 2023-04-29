@@ -1,5 +1,5 @@
 const validation = require("../controller/validation.js");
-const options = require("../controller/options.js");
+const { options } = require("../controller/options.js");
 const Ticket = require("../model/ticket.js");
 
 describe("Validation.js", () => {
@@ -173,36 +173,6 @@ describe("Validation.js", () => {
       );
       const notExpected = true;
       expect(actual).not.toEqual(notExpected);
-    });
-  });
-
-  describe("generateTicket", () => {
-    test("Should generate a ticket if the features are validated.", () => {
-      const features = {
-        id: 1,
-        type: "Ambo",
-        city: "Firenze",
-        quantity: 3,
-        bet: 1.5,
-      };
-      const ticket = validation.generateTicket(...Object.values(features));
-      const actual = ticket instanceof Ticket;
-      const expected = true;
-      expect(actual).toEqual(expected);
-    });
-
-    test("Should not generate a ticket if at least one feature is not validated.", () => {
-      const features = {
-        id: 1,
-        type: "Decina",
-        city: "Firenze",
-        quantity: 3,
-        bet: 1.5,
-      };
-      const ticket = validation.generateTicket(...Object.values(features));
-      const actual = ticket instanceof Ticket;
-      const expected = false;
-      expect(actual).toEqual(expected);
     });
   });
 });
