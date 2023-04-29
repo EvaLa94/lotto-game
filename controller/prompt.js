@@ -2,16 +2,53 @@ const Game = require("../model/game.js");
 const { options } = require("../controller/options.js");
 const { checkQuantity, checkBet } = require("./validation.js");
 
+const readline = require("readline").createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+// Main function
+async function promptUser(game) {
+  console.log(yellow, `Choose your move:`);
+
+  console.log(`1. Add a new ticket
+2. Print tickets
+3. Extract (new) numbers
+4. Print the extraction
+5. Check for winning tickets and print them
+0. Exit`);
+
+  readline.question("> ", async (answer) => {
+    const callback = actionOptions[answer];
+    if (answer === "1") {
+      await addTicket(game);
+    } else if (callback) {
+      callback(game);
+    } else if (answer === "0") {
+      console.log(blue, "The game has ended.");
+      readline.close();
+    } else {
+      console.log(red, "Invalid option");
+      promptUser(game);
+    }
+  });
+}
+
 // Colors
 const yellow = "\x1b[33m%s\x1b[0m";
 const red = "\x1b[31m%s\x1b[0m";
 const green = "\x1b[32m%s\x1b[0m";
 const blue = "\x1b[34m%s\x1b[0m";
 
-const readline = require("readline").createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+// Action options
+
+const actionOptions = {
+  1: addTicket,
+  2: printTickets,
+  3: performExtraction,
+  4: printExtraction,
+  5: checkWinningTickets,
+};
 
 // Add a ticket
 async function addTicket(game) {
@@ -138,16 +175,21 @@ function performExtraction(game) {
 }
 
 function printExtraction(game) {
-  console.log("Extracted numbers:");
-  for (const [key, value] of Object.entries(game.extraction)) {
-    console.log(key, value);
+  if (Object.keys(game.extraction).length === 0) {
+    console.log(red, "You need to perform an extraction!");
+  } else {
+    console.log("Extracted numbers:");
+    for (const [key, value] of Object.entries(game.extraction)) {
+      console.log(key, value);
+    }
   }
+
   promptUser(game);
 }
 
 // Print tickets
 
-function printTickets() {
+function printTickets(game) {
   if (game.tickets.length > 0) {
     for (const ticket of game.tickets) {
       console.log(ticket.printTicket());
@@ -162,7 +204,7 @@ function checkWinningTickets(game) {
   if (Object.keys(game.extraction).length === 0) {
     console.log(red, "You should perform an extraction!");
   } else if (Object.keys(game.tickets).length === 0) {
-    console.log(red, "You should add at least one number!");
+    console.log(red, "You should add at least one ticket!");
   } else {
     game.checkWinningTickets();
     if (game.winningTickets.length > 0) {
@@ -172,43 +214,6 @@ function checkWinningTickets(game) {
     }
   }
   promptUser(game);
-}
-
-// Action options
-
-const actionOptions = {
-  1: addTicket,
-  2: printTickets,
-  3: performExtraction,
-  4: printExtraction,
-  5: checkWinningTickets,
-};
-
-// Main function
-async function promptUser(game) {
-  console.log(yellow, `Choose your move:`);
-
-  console.log(`1. Add a new ticket
-2. Print tickets
-3. Extract (new) numbers
-4. Print the extraction
-5. Check for winning tickets and print them
-0. Exit`);
-
-  readline.question("> ", async (answer) => {
-    const callback = actionOptions[answer];
-    if (answer === "1") {
-      await addTicket(game);
-    } else if (callback) {
-      callback(game);
-    } else if (answer === "0") {
-      console.log(blue, "The game has ended.");
-      readline.close();
-    } else {
-      console.log(red, "Invalid option");
-      promptUser(game);
-    }
-  });
 }
 
 module.exports = { promptUser };
