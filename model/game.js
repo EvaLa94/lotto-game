@@ -23,10 +23,14 @@ class Game {
    * @returns {object} - The newly generated ticket
    */
   addTicket(type, city, quantity, bet) {
-    const ticket = new Ticket(this.idCount, type, city, quantity, bet);
-    this.tickets.push(ticket);
-    this.idCount++;
-    return ticket;
+    if (validateEnteredFeatures(this.idCount, type, city, quantity, bet)) {
+      const ticket = new Ticket(this.idCount, type, city, quantity, bet);
+      this.tickets.push(ticket);
+      this.idCount++;
+      return ticket;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -44,8 +48,9 @@ class Game {
    * @returns {object} - The game's extraction
    */
   performExtraction() {
-    this.extraction = new Extraction().extraction;
-    return this.extraction;
+    const extraction = new Extraction();
+    this.extraction = extraction.extraction;
+    return extraction;
   }
 
   /**
