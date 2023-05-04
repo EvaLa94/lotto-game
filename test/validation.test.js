@@ -1,5 +1,5 @@
 const validation = require("../controller/validation.js");
-const { options } = require("../controller/options.js");
+const { options } = require("../controller/utils/options.js");
 const Ticket = require("../model/ticket.js");
 
 describe("Validation.js", () => {

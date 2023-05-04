@@ -1,5 +1,5 @@
 const Ticket = require("../model/ticket.js");
-const { options } = require("../controller/options.js");
+const { options } = require("../controller/utils/options.js");
 
 describe("Ticket", () => {
   describe("Instantiate new ticket.", () => {

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "jest --coverage",
-    "start": "node controller/index.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "Eva Lateltin",

@@ -1,5 +1,5 @@
 const Game = require("../model/game.js");
-const { options } = require("../controller/options.js");
+const { options } = require("./utils/options.js");
 const { checkQuantity, checkBet } = require("./validation.js");
 
 const readline = require("readline").createInterface({

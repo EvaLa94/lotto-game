@@ -1,6 +1,6 @@
 const Ticket = require("./ticket.js");
 const Extraction = require("./extraction.js");
-const { options } = require("../controller/options.js");
+const { options } = require("../controller/utils/options.js");
 const { winningTable } = require("../controller/winningTable.js");
 const { validateEnteredFeatures } = require("../controller/validation.js");
 
