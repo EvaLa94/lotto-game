@@ -9,7 +9,6 @@ class Game {
   constructor() {
     this.idCount = 1;
     this.tickets = [];
-    this.winningTickets = [];
     this.extraction = {};
   }
 
@@ -59,8 +58,6 @@ class Game {
    * @returns {array} - All the winning tickets
    */
   checkWinningTickets() {
-    const winningTickets = [];
-
     // Loop through the tickets
     for (const ticket of this.tickets) {
       const cityArray =
@@ -77,25 +74,17 @@ class Game {
 
         // If the ticket is winning
         if (count >= options.ticketFeatures.typeMinNumber[ticket.type]) {
-          const existingTicket = winningTickets.filter(
-            (winningTicket) => winningTicket.id === ticket.id
-          );
-
-          // Check if the ticket has already won on another city
-          if (existingTicket.length > 0) {
-            existingTicket[0].grossWin += this.#calculateGrossWinning(ticket);
-            existingTicket[0].netWin += this.#calculateNetWinning(ticket);
+          if (ticket.hasOwnProperty("isWinning")) {
+            ticket.grossWin += this.#calculateGrossWinning(ticket);
+            ticket.netWin += this.#calculateNetWinning(ticket);
           } else {
+            ticket.isWinning = true;
             ticket.grossWin = this.#calculateGrossWinning(ticket);
             ticket.netWin = this.#calculateNetWinning(ticket);
-            winningTickets.push(ticket);
           }
         }
       }
     }
-
-    this.winningTickets = winningTickets;
-    return winningTickets;
   }
 
   /**
@@ -127,10 +116,27 @@ class Game {
   }
 
   /**
+   * Loop through this.tickets and get the tickets that are winning
+   *
+   * @returns {array} - The winning tickets
+   */
+  getWinningTickets() {
+    const winningTickets = [];
+
+    for (const ticket of this.tickets) {
+      if (ticket.isWinning) {
+        winningTickets.push(ticket);
+      }
+    }
+
+    return winningTickets;
+  }
+
+  /**
    * Loop throught the winning tickets and print the tickets and their gross and net winnings
    */
   printWinningTickets() {
-    for (const ticket of this.winningTickets) {
+    for (const ticket of this.getWinningTickets()) {
       console.log(
         `${ticket.printTicket()}The gross winning is: € ${ticket.grossWin.toFixed(
           2

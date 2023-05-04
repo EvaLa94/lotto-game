@@ -23,12 +23,6 @@ describe("Game", () => {
       expect(actual).toEqual(expected);
     });
 
-    test("The property winningTickets should be initially equal to an empty array.", () => {
-      const actual = game.winningTickets;
-      const expected = [];
-      expect(actual).toEqual(expected);
-    });
-
     test("The property extraction should be initially equal to an empty object.", () => {
       const actual = game.extraction;
       const expected = {};
@@ -75,21 +69,30 @@ describe("Game", () => {
     game.tickets[1].numbers = [1, 2, 3, 4, 5];
     game.extraction.Roma = [1, 2, 3, 4, 5];
     game.extraction.Bari = [1, 2, 3, 4, 5];
-
-    test("It should return the winning ticket(s).", () => {
-      const actual = game.checkWinningTickets()[0] instanceof Ticket;
-      const expected = true;
-      expect(actual).toEqual(expected);
-    });
+    game.checkWinningTickets();
 
     test("The same ticket should be included only once in the winningTickets array.", () => {
-      for (const winningTicket of game.winningTickets) {
-        const actual = game.winningTickets.filter(
-          (ticket) => ticket.id === winningTicket.id
-        ).length;
+      for (const winningTicket of game.getWinningTickets()) {
+        const actual = game
+          .getWinningTickets()
+          .filter((ticket) => ticket.id === winningTicket.id).length;
         const expected = 1;
         expect(actual).toEqual(expected);
       }
+    });
+  });
+
+  describe("getWinningTickets()", () => {
+    const game = new Game();
+    game.performExtraction();
+    game.addTicket("Cinquina", "Roma", 5, 1);
+    game.tickets[0].numbers = [1, 2, 3, 4, 5];
+    game.extraction.Roma = [1, 2, 3, 4, 5];
+    game.checkWinningTickets();
+
+    test("The returned array's length should be greater than 0 if there is at least one winning ticket.", () => {
+      const actual = game.getWinningTickets().length;
+      expect(actual).toBeGreaterThan(0);
     });
   });
 });
