@@ -1,5 +1,5 @@
 const Game = require("../model/game.js");
-const { options } = require("../controller/options.js");
+const { options } = require("./utils/options.js");
 const { checkQuantity, checkBet } = require("./validation.js");
 
 const readline = require("readline").createInterface({
@@ -169,8 +169,16 @@ function chooseBet(game) {
 // Extraction
 
 function performExtraction(game) {
-  game.performExtraction();
-  console.log(green, "The extraction has been performed!");
+  if (game.getWinningTickets().length > 0) {
+    console.log(
+      red,
+      "There are already some winning tickets, it is not possible to perform a new extraction."
+    );
+  } else {
+    game.performExtraction();
+    console.log(green, "The extraction has been performed!");
+  }
+
   promptUser(game);
 }
 
@@ -207,7 +215,7 @@ function checkWinningTickets(game) {
     console.log(red, "You should add at least one ticket!");
   } else {
     game.checkWinningTickets();
-    if (game.winningTickets.length > 0) {
+    if (game.getWinningTickets().length > 0) {
       game.printWinningTickets();
     } else {
       console.log(yellow, "None of your tickets won!");

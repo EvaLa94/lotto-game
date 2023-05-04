@@ -1,5 +1,5 @@
 const Extraction = require("../model/extraction.js");
-const { options } = require("../controller/options.js");
+const { options } = require("../controller/utils/options.js");
 
 describe("Extraction", () => {
   describe("Constructor", () => {

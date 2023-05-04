@@ -1,5 +1,5 @@
 const Ticket = require("../model/ticket");
-const { options } = require("./options.js");
+const { options } = require("./utils/options.js");
 
 /**
  * Validate the entered features based on the game options
