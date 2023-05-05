@@ -121,15 +121,7 @@ class Game {
    * @returns {array} - The winning tickets
    */
   getWinningTickets() {
-    const winningTickets = [];
-
-    for (const ticket of this.tickets) {
-      if (ticket.isWinning) {
-        winningTickets.push(ticket);
-      }
-    }
-
-    return winningTickets;
+    return this.tickets.filter((ticket) => ticket.isWinning);
   }
 
   /**
