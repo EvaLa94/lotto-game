@@ -94,5 +94,33 @@ describe("Game", () => {
       const actual = game.getWinningTickets().length;
       expect(actual).toBeGreaterThan(0);
     });
+
+    describe("An actual winning ticket should be returned.", () => {
+      const firstTicket = game.getWinningTickets()[0];
+
+      test("The winning ticket should have a isWinning property.", () => {
+        const actual = firstTicket.isWinning;
+        const expected = true;
+        expect(actual).toEqual(expected);
+      });
+
+      test("The winning ticket should have the winning city.", () => {
+        const actual = firstTicket.city;
+        const expected = "Roma";
+        expect(actual).toEqual(expected);
+      });
+
+      test("The winning ticket should have the winning type.", () => {
+        const actual = firstTicket.type;
+        const expected = "Cinquina";
+        expect(actual).toEqual(expected);
+      });
+
+      test("The winning ticket should have the entered quantity numbers.", () => {
+        const actual = firstTicket.numbers.length;
+        const expected = 5;
+        expect(actual).toEqual(expected);
+      });
+    });
   });
 });
