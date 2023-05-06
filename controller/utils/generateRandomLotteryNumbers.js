@@ -1,4 +1,4 @@
-const { options } = require("./options.js");
+const { optionsTicket } = require("../optionGame/optionsTicket.js");
 
 /**
  * Generate random numbers for both the lottery ticket and the lottery extraction
@@ -10,13 +10,13 @@ const { options } = require("./options.js");
 function generateRandomLotteryNumbers(quantity) {
   const randomNumbers = new Set();
   quantity =
-    quantity <= options.ticketFeatures.numberQuantity.max
+    quantity <= optionsTicket.ticketFeatures.numberQuantity.max
       ? quantity
-      : options.ticketFeatures.numberQuantity.max;
+      : optionsTicket.ticketFeatures.numberQuantity.max;
   while (randomNumbers.size < quantity) {
     const random = Math.floor(
-      Math.random() * options.ticketFeatures.randomNumber.max +
-        options.ticketFeatures.randomNumber.min
+      Math.random() * optionsTicket.ticketFeatures.randomNumber.max +
+        optionsTicket.ticketFeatures.randomNumber.min
     );
     randomNumbers.add(random);
   }

@@ -1,5 +1,5 @@
 const validation = require("../controller/validation.js");
-const { options } = require("../controller/utils/options.js");
+const { optionsTicket } = require("../controller/optionGame/optionsTicket.js");
 const Ticket = require("../model/ticket.js");
 
 describe("Validation.js", () => {
@@ -53,8 +53,8 @@ describe("Validation.js", () => {
 
   describe("checkQuantity", () => {
     const type = "Terno";
-    const min = options.ticketFeatures.typeMinNumber[type];
-    const max = options.ticketFeatures.numberQuantity.max;
+    const min = optionsTicket.ticketFeatures.typeMinNumber[type];
+    const max = optionsTicket.ticketFeatures.numberQuantity.max;
 
     test("Should return true if the entered quantity is above the option's minimun quantity.", () => {
       const actual = validation.checkQuantity(min + 1, type);

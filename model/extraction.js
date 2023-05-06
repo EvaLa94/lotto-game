@@ -1,5 +1,5 @@
-const generateRandomLotteryNumbers = require("../controller/utils/utils.js");
-const { options } = require("../controller/utils/options.js");
+const generateRandomLotteryNumbers = require("../controller/utils/generateRandomLotteryNumbers.js");
+const { optionsTicket } = require("../controller/optionGame/optionsTicket.js");
 
 /** Class representing a single extraction */
 class Extraction {
@@ -13,7 +13,7 @@ class Extraction {
    */
   #extractNumbers() {
     const extraction = {};
-    for (const city of options.ticketFeatures.cities) {
+    for (const city of optionsTicket.ticketFeatures.cities) {
       extraction[city] = generateRandomLotteryNumbers(5);
     }
     return extraction;

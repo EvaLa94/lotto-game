@@ -1,5 +1,5 @@
 const Ticket = require("../model/ticket");
-const { options } = require("./utils/options.js");
+const { optionsTicket } = require("./optionGame/optionsTicket.js");
 
 /**
  * Validate the entered features based on the game options
@@ -31,7 +31,7 @@ function checkId(id) {
 
 // Validation of the type
 function checkType(type) {
-  const typeList = options.ticketFeatures.type;
+  const typeList = optionsTicket.ticketFeatures.type;
   return typeList.includes(type)
     ? true
     : `The type should be one of the following: ${typeList.join(" - ")}`;
@@ -39,7 +39,7 @@ function checkType(type) {
 
 // Validation of the cities
 function checkCity(city) {
-  const possibleCities = options.ticketFeatures.cities;
+  const possibleCities = optionsTicket.ticketFeatures.cities;
   if (city === "Tutte" || possibleCities.includes(city)) {
     return true;
   } else {
@@ -49,8 +49,8 @@ function checkCity(city) {
 
 // Validation of the quantity
 function checkQuantity(quantity, type) {
-  const min = options.ticketFeatures.typeMinNumber[type];
-  const max = options.ticketFeatures.numberQuantity.max;
+  const min = optionsTicket.ticketFeatures.typeMinNumber[type];
+  const max = optionsTicket.ticketFeatures.numberQuantity.max;
   const checkMin =
     quantity >= min ? true : `The minimum entered quantity should be ${min}`;
   const checkMax =

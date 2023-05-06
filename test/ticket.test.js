@@ -1,5 +1,5 @@
 const Ticket = require("../model/ticket.js");
-const { options } = require("../controller/utils/options.js");
+const { optionsTicket } = require("../controller/optionGame/optionsTicket.js");
 
 describe("Ticket", () => {
   describe("Instantiate new ticket.", () => {
@@ -48,14 +48,14 @@ describe("Ticket", () => {
       id: 1,
       type: "Ambo",
       city: "Bari",
-      quantity: options.ticketFeatures.numberQuantity.max + 3,
+      quantity: optionsTicket.ticketFeatures.numberQuantity.max + 3,
       bet: 1.5,
     };
     const ticket = new Ticket(...Object.values(features));
 
     test("Should return the maximum allowed ticket quantity if the entered quantity exceed it.", () => {
       const actual = ticket.numbers.length;
-      const expected = options.ticketFeatures.numberQuantity.max;
+      const expected = optionsTicket.ticketFeatures.numberQuantity.max;
       const notExpected = features.quantity;
       expect(actual).toEqual(expected);
       expect(actual).not.toEqual(notExpected);
@@ -75,7 +75,6 @@ describe("Ticket", () => {
     test("It should print the ticket with the correct format.", () => {
       ticket.numbers = [23, 45, 86];
       const actual = ticket.printTicket();
-      //const expected = `+-------------------------------------+\n|              TICKET #1              |\n+---------+---------------------------+\n| City    | Bari - Cagliari - Firenze |\n| Type    | Ambo                      |\n| Numbers | 23 - 45 - 86              |\n+---------+---------------------------+\n`;
       const expected = `+------------------------+\n|       TICKET #1        |\n+---------+--------------+\n| City    | Bari         |\n| Type    | Ambo         |\n| Numbers | 23 - 45 - 86 |\n| Bet     | 1.50 €       |\n+---------+--------------+\n`;
       expect(actual).toEqual(expected);
     });

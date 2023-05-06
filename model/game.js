@@ -1,7 +1,7 @@
 const Ticket = require("./ticket.js");
 const Extraction = require("./extraction.js");
-const { options } = require("../controller/utils/options.js");
-const { winningTable } = require("../controller/winningTable.js");
+const { optionsTicket } = require("../controller/optionGame/optionsTicket.js");
+const { winningTable } = require("../controller/optionGame/winningTable.js");
 const { validateEnteredFeatures } = require("../controller/validation.js");
 
 /** Class representing a lottery game */
@@ -61,7 +61,9 @@ class Game {
     // Loop through the tickets
     for (const ticket of this.tickets) {
       const cityArray =
-        ticket.city === "Tutte" ? options.ticketFeatures.cities : [ticket.city];
+        ticket.city === "Tutte"
+          ? optionsTicket.ticketFeatures.cities
+          : [ticket.city];
 
       // Loop through the cities of the ticket
       for (const city of cityArray) {
@@ -73,7 +75,7 @@ class Game {
         });
 
         // If the ticket is winning
-        if (count >= options.ticketFeatures.typeMinNumber[ticket.type]) {
+        if (count >= optionsTicket.ticketFeatures.typeMinNumber[ticket.type]) {
           if (ticket.hasOwnProperty("isWinning")) {
             ticket.grossWin += this.#calculateGrossWinning(ticket);
             ticket.netWin += this.#calculateNetWinning(ticket);
