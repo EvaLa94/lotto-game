@@ -1,6 +1,6 @@
 // All the general options of the game can be changed inside this object
 
-const options = {
+const optionsTicket = {
   ticketQuantity: {
     // Minimun and maximum number of tickets that can be generated
     min: 1,
@@ -41,4 +41,4 @@ const options = {
   },
 };
 
-module.exports = { options };
+module.exports = { optionsTicket };

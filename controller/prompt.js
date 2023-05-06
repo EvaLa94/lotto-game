@@ -1,5 +1,5 @@
 const Game = require("../model/game.js");
-const { options } = require("./utils/options.js");
+const { optionsTicket } = require("./optionGame/optionsTicket.js");
 const { checkQuantity, checkBet } = require("./validation.js");
 
 const readline = require("readline").createInterface({
@@ -64,8 +64,8 @@ async function addTicket(game) {
 function chooseType(game) {
   // Set the type options
   const typeOptions = {};
-  for (let i = 0; i < options.ticketFeatures.type.length; i++) {
-    typeOptions[i + 1] = options.ticketFeatures.type[i];
+  for (let i = 0; i < optionsTicket.ticketFeatures.type.length; i++) {
+    typeOptions[i + 1] = optionsTicket.ticketFeatures.type[i];
   }
 
   // Print the options in the console
@@ -95,10 +95,10 @@ function chooseType(game) {
 function chooseCity(game) {
   // Set the city options
   const cityOptions = {};
-  for (let i = 0; i < options.ticketFeatures.cities.length; i++) {
-    cityOptions[i + 1] = options.ticketFeatures.cities[i];
+  for (let i = 0; i < optionsTicket.ticketFeatures.cities.length; i++) {
+    cityOptions[i + 1] = optionsTicket.ticketFeatures.cities[i];
   }
-  cityOptions[options.ticketFeatures.cities.length + 1] = "Tutte";
+  cityOptions[optionsTicket.ticketFeatures.cities.length + 1] = "Tutte";
 
   // Print the options in the console
   console.log(yellow, `Choose the ticket city:`);

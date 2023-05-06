@@ -1,4 +1,4 @@
-const generateRandomLotteryNumbers = require("../controller/utils/utils");
+const generateRandomLotteryNumbers = require("../controller/utils/generateRandomLotteryNumbers.js");
 const { AsciiTable3, AlignmentEnum } = require("ascii-table3");
 
 /** Class representing a single ticket */

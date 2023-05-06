@@ -1,5 +1,5 @@
 const Extraction = require("../model/extraction.js");
-const { options } = require("../controller/utils/options.js");
+const { optionsTicket } = require("../controller/optionGame/optionsTicket.js");
 
 describe("Extraction", () => {
   describe("Constructor", () => {
@@ -12,7 +12,7 @@ describe("Extraction", () => {
     });
 
     test("It should extract numbers for each lottery city", () => {
-      for (const city of options.ticketFeatures.cities) {
+      for (const city of optionsTicket.ticketFeatures.cities) {
         const actual = extraction.extraction.hasOwnProperty(city);
         const expected = true;
         expect(actual).toEqual(expected);
