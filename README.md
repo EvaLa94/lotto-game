@@ -11,6 +11,7 @@
   4. [Print The Extraction](#4-print-the-extraction)<br>
   5. [Check For Winning Tickets And Print Them](#5-check-for-winning-tickets-and-print-them)<br>
      [Exit game](#0-exit-game)<br>
+- [Technical Documentation](#technical-documentation)
 
 ## Italian Lottery Game
 
@@ -185,3 +186,13 @@ A message will be printed to confirm that the game has ended:
 ![Exit](./img/exit.png)
 
 Be aware that after exiting the game, any performed action will be reset.
+
+## Technical documentation
+
+To access the technical documentation, run in the terminal the following command:
+
+```sh
+npm run build-docs
+```
+
+A new folder called _docs_ will be created. Open the file _index.html_ in the browser in order to access to the complete technical documentation.
