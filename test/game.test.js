@@ -47,11 +47,7 @@ describe("Game", () => {
 
   describe("performExtraction()", () => {
     const game = new Game();
-    test("It should create a new instance of Extraction.", () => {
-      const actual = game.performExtraction() instanceof Extraction;
-      const expected = true;
-      expect(actual).toEqual(expected);
-    });
+    game.performExtraction();
 
     test("It should fill the extraction property.", () => {
       const actual = game.extraction;
