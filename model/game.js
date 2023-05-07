@@ -31,15 +31,6 @@ class Game {
   }
 
   /**
-   * Print the tickets in the console
-   */
-  printTickets() {
-    for (const ticket of this.tickets) {
-      console.log(ticket.printTicket());
-    }
-  }
-
-  /**
    * Perform a new lottery extraction
    */
   performExtraction() {
@@ -60,6 +51,15 @@ class Game {
    */
   getWinningTickets() {
     return this.tickets.filter((ticket) => ticket.isWinning);
+  }
+
+  /**
+   * Print the tickets in the console
+   */
+  printTickets() {
+    for (const ticket of this.tickets) {
+      console.log(ticket.printTicket());
+    }
   }
 
   /**
