@@ -5,12 +5,12 @@
 - [Italian Lottery Game](#italian-lottery-game)<br>
 - [Install and Run the Project](#install-and-run-the-project)<br>
 - [How To Play](#how-to-play)<br>
-  1. [Add A Ticket](#1-add-a-ticket)<br>
-  2. [Print Tickets](#2-print-tickets)<br>
-  3. [Extract Numbers](#3-extract-numbers)<br>
-  4. [Print The Extraction](#4-print-the-extraction)<br>
-  5. [Check For Winning Tickets And Print Them](#5-check-for-winning-tickets-and-print-them)<br>
-     [Exit game](#0-exit-game)<br>
+  - [Add A Ticket](#1-add-a-ticket)<br>
+  - [Print Tickets](#2-print-tickets)<br>
+  - [Extract Numbers](#3-extract-numbers)<br>
+  - [Print The Extraction](#4-print-the-extraction)<br>
+  - [Check For Winning Tickets And Print Them](#5-check-for-winning-tickets-and-print-them)<br>
+  - [Exit game](#0-exit-game)<br>
 - [Technical Documentation](#technical-documentation)
 
 ## Italian Lottery Game
