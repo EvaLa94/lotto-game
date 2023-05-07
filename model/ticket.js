@@ -36,24 +36,6 @@ class Ticket {
   }
 
   /**
-   * Print the ticked in a nice ascii format, with the informations from the constructor
-   *
-   * @returns {string} - Return the ticket in a string format
-   */
-  printTicket() {
-    const table = new AsciiTable3(`TICKET #${this.id.toString()}`)
-      .setAlign(3, AlignmentEnum.CENTER)
-      .addRowMatrix([
-        ["City", this.city],
-        ["Type", this.type],
-        ["Numbers", this.numbers.join(" - ")],
-        ["Bet", `${this.bet.toFixed(2)} €`],
-      ]);
-
-    return table.toString();
-  }
-
-  /**
    * Check if the ticket is winning
    */
   checkWinningTicket(extraction) {
@@ -104,6 +86,24 @@ class Ticket {
     const multiplier = winningTable[this.type][this.numbers.length];
     const divisor = this.city === "Tutte" ? 10 : 1;
     return (multiplier * this.bet * (1 - 0.08)) / divisor;
+  }
+
+  /**
+   * Print the ticked in a nice ascii format, with the informations from the constructor
+   *
+   * @returns {string} - Return the ticket in a string format
+   */
+  printTicket() {
+    const table = new AsciiTable3(`TICKET #${this.id.toString()}`)
+      .setAlign(3, AlignmentEnum.CENTER)
+      .addRowMatrix([
+        ["City", this.city],
+        ["Type", this.type],
+        ["Numbers", this.numbers.join(" - ")],
+        ["Bet", `${this.bet.toFixed(2)} €`],
+      ]);
+
+    return table.toString();
   }
 }
 

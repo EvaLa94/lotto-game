@@ -1,192 +1,69 @@
 # Lottery game :moneybag:
 
-This project simulates the creation of lottery tickets.
+## Table of Contents
 
-This is the first of three part of <a href="https://www.tomorrowdevs.com/">TomorrowDevs</a> project for Milestone 6.
-Read <a href="https://github.com/tomorrowdevs-projects/programming-basics/tree/main/projects/m6/001-lotto-game">here</a> the prompt.
+- [Italian Lottery Game](#italian-lottery-game)<br>
+- [Install and Run the Project](#install-and-run-the-project)<br>
+- [How To Play](#how-to-play)<br>
+  1. [Add A Ticket](#1-add-a-ticket)<br>
+  2. [Print Tickets](#2-print-tickets)<br>
+  3. [Extract Numbers](#3-extract-numbers)<br>
+  4. [Print The Extraction](#4-print-the-extraction)<br>
+  5. [Check For Winning Tickets And Print Them](#5-check-for-winning-tickets-and-print-them)<br>
+     [Exit game](#0-exit-game)<br>
+- [Technical Documentation](#technical-documentation)
+
+## Italian Lottery Game
+
+This project simulates the Italian lottery game.
+
+The lottery game (or "Lotto") is based on an extraction of numbers with cash prizes in case of winning.
+
+In particular, the Lotto game involves the extraction of 5 numbers (between 1 and 90) for each of 10 italian cities:
+
+- Bari
+- Cagliari
+- Firenze
+- Genova
+- Milano
+- Napoli
+- Palermo
+- Roma
+- Torino
+- Venezia
+
+It is possible to bet until 10 numbers and choose different types of play:
+
+- _Ambata_: guess one extracted number
+- _Ambo_: guess two extracted numbers
+- _Terno_: guess three extracted numbers
+- _Quaterna_: guess four extracted numbers
+- _Cinquina_: guess five extracted numbers
 
 More about the Italian lottery game (written in Italian):
 
 - https://www.sisal.it/lotto/come-si-gioca
 - https://www.servizitelevideo.rai.it/televideo/pub/pagina.jsp?p=786&s=0&r=Nazionale&idmenumain=0
 
-## Table of Contents
-
-- [Project description](#project-description)<br>
-  - [Ticket class](#ticket-class)<br>
-  - [Game class](#game-class)<br>
-  - [Game options](#game-options)<br>
-- [Install and Run the Project](#install-and-run-the-project)<br>
-- [How to Use the Project](#how-to-use-the-project)<br>
-  - [Generate a single ticket](#generate-a-single-ticket)
-  - [Generate a game with initWithPrompt](#generate-a-game-with-initwithprompt)
-  - [Generate a game with initWithInput](#generate-a-game-with-initwithinput)
-- [Future improvements](#future-improvements)<br>
-
-## Project description
-
-The project is structured in the following folders:
-
-- :file_folder: model
-  - ticket.js &rarr; This file contains the Ticket class, that represents a single ticket.
-  - game.js &rarr; This file contains the Game class, that represents a game of lottery, where multiple tickets are generated.
-  - options.js &rarr; This file contains the game options, that can be changed in order to customize the experience.
-  - validation &rarr; This file contains the validation for the creation of tickets.
-- :file_folder: controller
-  - index.js &rarr; This file initializes a new game and then prints all the generated tickets.
-
-### Ticket class
-
-The Ticket Class allows to generate a new ticket starting from a few features:
-
-- **Type**: Ambata, Ambo, Terno, Quaterna, Cinquina
-- **City**: Bari, Cagliari, Firenze, Genova, Milano, Napoli, Palermo, Roma, Torino, Venezia or Tutte (all the previous cities)
-- **Quantity**: quantity of numbers to be generated
-
-The creation of a ticket looks like this:
-
-```javascript
-const ticketFeatures = {
-  type: "Ambo",
-  city: ["Bari", "Cagliari", "Firenze"],
-  quantity: 3,
-};
-
-const ticket = generateTicket(1, ticketFeatures); // The first parameter is the id, i.e. the number of the ticket
-```
-
-This is the result:
-
-```javascript
-Ticket {
-  id: 1,
-  type: 'Ambo',
-  city: [ 'Bari', 'Cagliari', 'Firenze' ],
-  numbers: [ 6, 17, 25 ]
-}
-```
-
-By using the _printTicket()_ method, the ticket will be printed in a nice ascii format:
-
-```
-+-------------------------------------+
-|              TICKET #1              |
-+---------+---------------------------+
-| City    | Bari - Cagliari - Firenze |
-| Type    | Ambo                      |
-| Numbers | 56 - 81 - 88              |
-+---------+---------------------------+
-```
-
-### Game class
-
-The Game class allows to generate a new lottery game.
-In each game, the user needs to enter in the console how many tickets they wish to generate. As per default options, the number of tickets should be included between 1 and 5.
-
-The game can be generated in two different ways:
-
-1. It can generates the tickets based on the information entered in the console by the user. In this case, after instantiating a new game, the method _initWithPrompt()_ should be used.
-   See here the example code:
-   [Generate a game with initWithPrompt](#generate-a-game-with-initwithprompt)
-2. It can generates the tickets based on the information entered as parameter in the format of array of objects. In this case, after instantiating a new game, the method _initWithInput()_ should be used.
-   See here the example code:
-   [Generate a game with initWithInput](#generate-a-game-with-initwithinput)
-
-### Game options
-
-In this file it is possible to customize the options of the game. Do not change this file if you wish to experience a simulation closest to the actual Italian lottery game (without the winning :wink:).
-
-What options can be customized:
-
-- The **minimun** and **maximum number of tickets** that can be generated. This option is used inside the Game class.
-
-```javascript
-const options = {
-    ticketQuantity: {
-        min: 1,
-        max: 5
-    },
-    [...]
-}
-```
-
-- The **cities**, aka the "ruote"
-
-```javascript
-const options = {
-    [...]
-    ticketFeatures: {
-        cities: ['Bari', 'Cagliari', 'Firenze', 'Genova', 'Milano', 'Napoli', 'Palermo', 'Roma', 'Torino', 'Venezia'],
-    [...]
-    }
-}
-```
-
-- The ticket **type**:
-
-```javascript
-const options = {
-    [...]
-    ticketFeatures: {
-        type: ['Ambata', 'Ambo', 'Terno', 'Quaterna', 'Cinquina'],
-    [...]
-    }
-}
-```
-
-- Based on the ticket type, the **minimum quantity of numbers** that will be possible to generate:
-
-```javascript
-const options = {
-    [...]
-    ticketFeatures: {
-        typeMinNumber: {
-            'Ambata': 1,
-            'Ambo': 2,
-            'Terno': 3,
-            'Quaterna': 4,
-            'Cinquina': 5
-        },
-    [...]
-    }
-}
-```
-
-- How many **numbers** will have each ticket:
-
-```javascript
-const options = {
-    [...]
-    ticketFeatures: {
-        numberQuantity: {
-            min: 1,
-            max: 10
-        },
-    [...]
-    }
-}
-```
-
-- **Range of the numbers** that will be generated:
-
-```javascript
-const options = {
-    [...]
-    ticketFeatures: {
-    [...]
-        randomNumber: {
-            min: 1,
-            max: 90
-        }
-    }
-
-}
-```
-
 ## Install and Run the Project
 
-Download or clone this project, then open it with your favorite IDE.
-In order to install the dependencies, run the following command in your terminal:
+First of all, you need to have Node.js installed.
+To check if it is already installed, run this command in your terminal:
+
+```sh
+node -v
+```
+
+If you have it installed, you will see the version, for example _v18.14.2_. If not, download it here: [Download](https://nodejs.org/en/download/current).
+
+After that, download the folder of this project by clicking on the green button "Code" and then select "Download ZIP", extract it then open it with your favorite IDE.
+Alternatively, clone the repository with the command:
+
+```sh
+git clone https://github.com/EvaLa94/lotto-game.git
+```
+
+Once you have opened the folder in your IDE, in order to install the dependencies, run the following command in your terminal:
 
 ```sh
 npm install
@@ -198,60 +75,124 @@ In order to start a new game, run the following command in your terminal:
 npm start
 ```
 
-## How to Use the Project
+## How To Play
 
-This project offers you the following possibilities:
+When you launch the game, you will find all the options that the game offers.
 
-### Generate a single ticket
+![Menu Options](./img/menu-options.png)
 
-```javascript
-const ticketFeatures = {
-  type: "Ambo",
-  city: ["Bari", "Cagliari", "Firenze"],
-  quantity: 3,
-};
+### 1. Add A Ticket
 
-const ticket = new Ticket(1, ticketFeatures); // The first parameter is the id, i.e. the number of the ticket
+In order to add a (new) ticket, type _1_ in the console to select the option _"Add a new ticket"_.
+
+![Ticket type](./img/ticket-type.png)
+
+First of all, you are presented with the option to choose the **ticket's type**. You can select the type by typing in the console the corresponding number (from _1_ to _5_). If you wish to cancel the ticket creation, type _0_ in order to cancel the operation and come back to the menu options. It will be possible to cancel the operation in every step of the ticket creation, by entering _0_ in the console.
+
+![Ticket city](./img/ticket-city.png)
+
+After choosing the ticket type, you should choose the **city** to bet on. You can choose on the cities in the list, or you can choose _"Tutte"_ to select them all.
+
+![Ticket quantity](./img/ticket-quantity.png)
+
+The next step is to choose how many **numbers** to generate: the numbers will be automatically generated by the application.
+There are a few limitations in this step:
+
+- The maximum numbers' quantity is set to 10. If you enter a number greater than 10, you will receive an error message and it will be possiblet to try again.
+- The minimum numbers' quantity depends on the ticket's type chosen:
+  - Ambata: at lest 1
+  - Ambo: at lest 2
+  - Terno: at lest 3
+  - Quaterna: at lest 4
+  - Cinquina: at lest 5
+
+![Ticket bet](./img/ticket-bet.png)
+
+The last step is to choose how much to **bet** on the ticket. The only limitation here is that a number greater than zero should be entered.
+
+![Ticket added](./img/ticket-added.png)
+
+After completing the procedure, you will receive a message confirming that the ticked as been added.
+
+### 2. Print Tickets
+
+In order to print the tickets that have been previously added to the game, select _2_ in the menu options.
+
+![Ticket printed](./img/ticket-printed.png)
+
+All the tickets that have been previously created will be printed in the console in a nice format.
+
+![Print Ticket Error](./img/print-ticket-error.png)
+
+Please be aware that if you select this option before creating any ticket, you will receive an error message, since there aren't any tickets to be printed.
+
+### 3. Extract Numbers
+
+In order to create a new extraction, select _3_ in the menu options.
+
+![Extraction](./img/extraction.png)
+
+If the extraction was successfull, a confirmation message will be printed in the console.
+
+It will be possible to perform an extraction:
+
+- Before checking for winning tickets
+- Even after checking for winning tickets, but only if none of the tickets were winning.
+
+If you try to perform a new extraction after one of the tickets was winning, you will get a message error:
+
+![Extraction Error](./img/extraction-error.png)
+
+### 4. Print The Extraction
+
+In order to print the extraction, select _4_ in the menu options.
+
+If an extraction has already been performed, the extracted numbers for each city will be printed in the console:
+
+![Extraction Printed](./img/extraction-printed.png)
+
+If you try this option before performing an extraction, you will receive an error message:
+
+![Extraction Error Not Performed](./img/extraction-error-not-performed.png)
+
+### 5. Check For Winning Tickets And Print Them
+
+After adding at least one ticket and performing an extraction, it will be possible to check if the ticket(s) is/are winning.
+
+The winning tickets will be printed in the console, with their corresponding gross and net winning amount:
+
+![Winning Ticket](./img/winning-ticket.png)
+
+If none of the tickets are winning, a message will inform you:
+
+![No Winning Ticket](./img/no-winning-ticket.png)
+
+Error messages will be printed instead if:
+
+- The extraction hasn't been performed yet:
+
+![Missing Extraction](./img/missing-extraction.png)
+
+- A ticket hasn't been added yet:
+
+![Missing Ticket](./img/missing-ticket.png)
+
+### 0. Exit Game
+
+At any point of the game, select _0_ in the menu options if you wish to quit the game.
+
+A message will be printed to confirm that the game has ended:
+
+![Exit](./img/exit.png)
+
+Be aware that after exiting the game, any performed action will be reset.
+
+## Technical documentation
+
+To access the technical documentation, run in the terminal the following command:
+
+```sh
+npm run build-docs
 ```
 
-You can use the _printTicket()_ method in order to print this ticket in a nice ascii table.
-
-### Generate a game with initWithPrompt
-
-```javascript
-const firstGame = new Game();
-
-firstGame.initWithPrompt().then(() => {
-  for (const ticket of firstGame.tickets) {
-    console.log(ticket.printTicket());
-  }
-});
-```
-
-### Generate a game with initWithInput
-
-```javascript
-const secondGame = new Game();
-
-const input1 = {
-  type: "Ambo",
-  city: ["Bari", "Cagliari", "Firenze"],
-  quantity: 3,
-};
-const input2 = {
-  type: "Ambo",
-  city: ["Tutte"],
-  quantity: 5,
-};
-
-secondGame.initWithInput([input1, input2]).then(() => {
-  for (const ticket of secondGame.tickets) {
-    console.log(ticket.printTicket());
-  }
-});
-```
-
-## Future improvements
-
-- Implement part 2: <a href="https://github.com/tomorrowdevs-projects/programming-basics/tree/main/projects/m6/002-lotto-fake-extraction">Description</a>
-- Implement part 3: <a href="https://github.com/tomorrowdevs-projects/programming-basics/tree/main/projects/m6/003-lotto-calculate-prizes">Description</a>
+A new folder called _docs_ will be created. Open the file _index.html_ in the browser in order to access to the complete technical documentation.
